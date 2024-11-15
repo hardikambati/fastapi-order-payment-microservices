@@ -7,6 +7,14 @@ An example of multiple services being driven through one API server (Microservic
 
 <br>
 
+## Overview
+
+<div align="center">
+<img src="./docs/overview.png">
+</div>
+
+<br>
+
 ## Docker Container Description
 
 This system consists of multiple services / containers :
