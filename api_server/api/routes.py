@@ -1,4 +1,3 @@
-import uuid
 
 from fastapi import (
     Depends,
@@ -15,6 +14,7 @@ from .schemas import (
     UserSchema,
     UserDetailsSchema,
 )
+from .service import UserService
 
 
 router = APIRouter()
@@ -31,19 +31,12 @@ def get_health():
 @router.post("/user", response_model=UserDetailsSchema, tags=["User"])
 async def post_user(payload: UserSchema, db: Session = Depends(get_db)) -> UserSchema:
     """create user"""
-    query = User(name=payload.name, unique_id=str(uuid.uuid4()))
-    db.add(query)
-    db.commit()
-    db.refresh(query)
-    return query
+    user = UserService(db).create_user(payload)
+    return user
 
 @router.get("/user/{unique_id}", response_model=UserDetailsSchema, tags=["User"])
 async def get_user(unique_id: str, db: Session = Depends(get_db)) -> UserDetailsSchema:
     """get user details"""
-    query = db.query(User).filter(
-        User.unique_id == unique_id
-    ).first()
-    if query:
-        return query
-    raise HTTPException(detail="Invalid unique_id", status_code=404)
+    user = UserService(db).get_user(unique_id)
+    return user
 
