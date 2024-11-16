@@ -28,3 +28,7 @@ class UserService:
         if query:
             return query
         raise HTTPException(detail="Invalid unique_id", status_code=404)
+
+    def get_all_users(self):
+        query = self.db.query(User).all()
+        return query

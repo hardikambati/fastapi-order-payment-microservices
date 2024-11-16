@@ -43,8 +43,8 @@ This system consists of multiple services / containers :
     - Open Pgadmin tool here [`http://0.0.0.0:5050/`](http://0.0.0.0:5050/) and create a :
         - User with username and password `postgres`
         - Database with name `test_db`
-4. Migrating changes using alembic
-    1. Migrate changes (Migrations will be automated in future, below commands won't be required)
+4. Migrating changes using alembic (Recommended to perform migrations manually for DB setup)
+    1. cd into every service and run the following commands (will write a script soon)
         ```
         docker-compose run web alembic revision --autogenerate -m "<your-commit-message>"
         ```

@@ -38,6 +38,21 @@ services:
     depends_on:
       - db
 
+  products:
+    build: products
+    container_name: products
+    volumes:
+      - ./products:/code
+    ports:
+      - 8001:8001
+    env_file:
+      - .env
+    command: >
+      sh -c "uvicorn main:app --host 0.0.0.0 --port 8001 --reload"
+    restart: on-failure:3
+    depends_on:
+      - db
+
 volumes:
   postgres_data:
   
