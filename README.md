@@ -71,3 +71,8 @@ This system consists of multiple services / containers :
 Swagger Doc : [http://0.0.0.0:8000/docs/](http://0.0.0.0:8000/docs/) <br>
 Redoc Page  : [http://0.0.0.0:8000/redoc/](http://0.0.0.0:8000/redoc/) <br>
 Pgadmin DB  : [http://0.0.0.0:5050/](http://0.0.0.0:5050/)
+
+
+## UPCOMING ADD-ONS
+
+1. SQLite3 support for testing locally without db setup (run using single script trigger)

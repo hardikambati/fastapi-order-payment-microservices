@@ -2,7 +2,6 @@ from typing import (
     Union,
 )
 from fastapi import (
-    Header,
     Depends,
     APIRouter,
     HTTPException,

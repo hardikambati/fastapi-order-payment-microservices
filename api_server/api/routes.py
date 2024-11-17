@@ -27,6 +27,7 @@ def get_health():
         status_code=200
     )
 
+# =============== USERS ===============
 
 @router.post("/users", response_model=UserDetailsSchema, tags=["User"])
 async def post_user(payload: UserSchema, db: Session = Depends(get_db)) -> UserSchema:
@@ -48,3 +49,21 @@ async def get_user(unique_id: str, db: Session = Depends(get_db)) -> UserDetails
     user = UserService(db).get_user(unique_id)
     return user
 
+# =============== ORDERS ===============
+
+@router.post('/orders/create', tags=["Order"])
+async def post_order(db: Session = Depends(get_db)):
+    """create order"""
+    pass
+
+
+@router.get("/orders", tags=["Order"])
+async def get_orders(db: Session = Depends(get_db)):
+    """get all orders"""
+    pass
+
+
+@router.get("/orders/{id}", tags=["Order"])
+async def get_single_order(id: int, db: Session = Depends(get_db)):
+    """get single order"""
+    pass
