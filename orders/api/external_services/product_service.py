@@ -1,8 +1,22 @@
+import json
+
+import requests
+
+from service_helper import (
+    get_domain,
+    ServiceEnum,
+)
+
 
 class ProductService:
-    def __init__(self, id_list: list):
-        self.id_list = id_list
+    """get data from product service"""
 
-    def get_all_products(self):
-        # call product service api here
-        pass
+    def get_all_products(self, product_ids: list):
+        response = requests.post(
+            url=get_domain(ServiceEnum.PRODUCT) + "/products/particulars",
+            headers={"Content-Type": "application/json"},
+            json={
+                "product_ids": product_ids
+            }
+        )
+        return json.loads(response.content.decode())

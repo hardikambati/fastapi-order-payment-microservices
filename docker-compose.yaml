@@ -52,7 +52,22 @@ services:
     restart: on-failure:3
     depends_on:
       - db
-
+    
+  orders:
+    build: orders
+    container_name: orders
+    volumes:
+      - ./orders:/code
+    ports:
+      - 8002:8002
+    env_file:
+      - .env
+    command: >
+      sh -c "uvicorn main:app --host 0.0.0.0 --port 8002 --reload"
+    restart: on-failure:3
+    depends_on:
+      - db
+   
 volumes:
   postgres_data:
   

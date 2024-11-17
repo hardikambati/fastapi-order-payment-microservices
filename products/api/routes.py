@@ -11,6 +11,7 @@ from db import get_db
 from .schemas import (
     ProductSchema,
     ProductDetailSchema,
+    ProductRequestSchema,
 )
 from .service import ProductService
 
@@ -42,9 +43,8 @@ async def get_all_products(db: Session = Depends(get_db)):
     return query
 
 
-@router.get("/products/{id}", response_model=ProductDetailSchema, tags=["Product"])
-async def get_single_product(id: int, db: Session = Depends(get_db)):
-    """get single product"""
-    query = ProductService(db).get_single_product(id)
+@router.post("/products/particulars", response_model=List[ProductDetailSchema], tags=["Product"])
+async def get_particular_products(payload: ProductRequestSchema, db: Session = Depends(get_db)):
+    """get particular products"""
+    query = ProductService(db).get_particulars(payload)
     return query
-

@@ -5,9 +5,6 @@ from pydantic import (
 )
 
 
-class OrderSchema(BaseModel):
+class OrderRequestSchema(BaseModel):
     user_id: int = Field(...)
-    reference_key: str = Field(...)
-    total_amount: float = Field(...)
-    status: str = Field(...)
-
+    product_ids: List[int] = Field(...)

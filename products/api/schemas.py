@@ -14,3 +14,7 @@ class ProductSchema(BaseModel):
 class ProductDetailSchema(ProductSchema, BaseModel):
     id: int = Field(...)
     created_at: datetime = Field(...)
+
+
+class ProductRequestSchema(BaseModel):
+    product_ids: List[int] = Field(...)

@@ -4,6 +4,10 @@ from fastapi import (
 from sqlalchemy.orm import Session
 
 from .models import Product
+from .schemas import (
+    ProductSchema,
+    ProductRequestSchema,
+)
 
 
 class ProductService:
@@ -12,7 +16,7 @@ class ProductService:
     def __init__(self, db: Session):
         self.db = db
 
-    def create_product(self, payload: dict):
+    def create_product(self, payload: ProductSchema):
         query = Product(description=payload.description, price=payload.price)
         self.db.add(query)
         self.db.commit()
@@ -22,10 +26,8 @@ class ProductService:
         query = self.db.query(Product).all()
         return query
     
-    def get_single_product(self, product_id: int):
+    def get_particulars(self, payload: ProductRequestSchema):
         query = self.db.query(Product).filter(
-            Product.id == product_id
-        ).first()
-        if query:
-            return query
-        raise HTTPException(detail="Invalid product id", status_code=404)
+            Product.id.in_(payload.product_ids)
+        )
+        return query
