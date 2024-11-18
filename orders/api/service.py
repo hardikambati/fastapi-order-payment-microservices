@@ -16,6 +16,7 @@ from utils import (
     OrderStatusEnum,
     WebhookResponse,
 )
+from core.main import publish
 
 
 class OrderService:
@@ -49,6 +50,17 @@ class OrderService:
         ]
         self.db.bulk_save_objects(order_product_list)
         self.db.commit()
+
+        # publish event to payment queue
+        data = {
+            "event": "ORDER_CREATED",
+            "data": {
+                "order_id": query.id,
+                "user_id": payload.user_id,
+                "total_amount": total_amount,
+            }
+        }
+        publish(data=data, channel="payment")
 
         response = query.to_dict()
         response["products"] = product_list

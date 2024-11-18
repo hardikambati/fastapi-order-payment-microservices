@@ -13,6 +13,15 @@ services:
     env_file:
       .env
 
+  redis:
+    image: docker.io/bitnami/redis:latest
+    ports:
+      - 6379:6379
+    env_file:
+      - .env
+    volumes:
+      - redis_data:/bitnami/redis/data
+
   pgadmin:
     image: dpage/pgadmin4
     restart: always
@@ -64,6 +73,17 @@ services:
       - .env
     command: >
       sh -c "uvicorn main:app --host 0.0.0.0 --port 8002 --reload"
+    restart: on-failure:3
+    depends_on:
+      - db
+
+  payments:
+    build: payments
+    container_name: payments
+    volumes:
+      - ./payments:/code
+    env_file:
+      - .env
     restart: on-failure:3
     depends_on:
       - db
