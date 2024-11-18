@@ -1,6 +1,3 @@
 [submodule "payments/core"]
 	path = payments/core
 	url = https://github.com/hardikambati/core.git
-[submodule "orders/core"]
-	path = orders/core
-	url = https://github.com/hardikambati/core.git
