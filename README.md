@@ -76,3 +76,4 @@ Pgadmin DB  : [http://0.0.0.0:5050/](http://0.0.0.0:5050/)
 ## UPCOMING ADD-ONS
 
 1. SQLite3 support for testing locally without db setup (run using single script trigger)
+2. Service authentication (imp)

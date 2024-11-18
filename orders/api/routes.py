@@ -11,9 +11,13 @@ from sqlalchemy.orm import Session
 
 from db import get_db
 from .schemas import (
+    OrderUpdateSchema,
     OrderRequestSchema,
 )
-from .service import OrderService
+from .service import (
+    OrderService,
+    WebhookService,
+)
 
 
 router = APIRouter()
@@ -51,3 +55,12 @@ async def get_single_order(id: int, db: Session = Depends(get_db)):
     query = OrderService(db).get_single_order(id)
     return query
 
+
+# =============== WEBHOOK ===============
+
+
+@router.put("/orders/webhook/status_update", tags=["Webhook"])
+async def webhook_update_order_status(payload: OrderUpdateSchema, db: Session = Depends(get_db)):
+    """webhook to update order status"""
+    query = WebhookService(db).update_order_status(payload=payload)
+    return query

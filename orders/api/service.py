@@ -12,6 +12,10 @@ from .models import (
     Order,
     OrderProduct,
 )
+from utils import (
+    OrderStatusEnum,
+    WebhookResponse,
+)
 
 
 class OrderService:
@@ -89,3 +93,20 @@ class OrderService:
         response = order_query.to_dict()
         response["products"] = product_list
         return response
+
+
+class WebhookService:
+
+    def __init__(self, db: Session):
+        self.db = db
+
+    def update_order_status(self, payload):
+        order_query = self.db.query(Order).filter(
+            Order.id == payload.order_id
+        ).first()
+        if not order_query:
+            raise HTTPException(detail="Invalid order ID", status_code=404)
+        order_query.status = OrderStatusEnum(OrderStatusEnum.PENDING.value)
+        
+        self.db.commit()
+        return WebhookResponse(detail="Order updated successfully", status_code=404)

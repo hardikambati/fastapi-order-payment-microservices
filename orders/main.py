@@ -34,7 +34,7 @@ async def lifespan(app: FastAPI):
 # FastAPI app instance
 app = FastAPI(
     title="Order API's",
-    description="Product API's",
+    description="Order API's",
     version="1.0.0",
     lifespan=lifespan
 )
