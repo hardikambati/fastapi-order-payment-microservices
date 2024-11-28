@@ -7,7 +7,7 @@ from sqlalchemy.orm import (
     Session,
     joinedload,
 )
-from .external_services.product_service import ProductService
+from core.utils.external_services.products import ProductService
 from .models import (
     Order,
     OrderProduct,
