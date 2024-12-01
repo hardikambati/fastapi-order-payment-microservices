@@ -13,6 +13,6 @@ class OrderStatusEnum(Enum):
 
     INIT = "init"
     PENDING = "pending"
-    SUCCESSFUL = "successful"
+    SUCCESS = "successful"
     FAILED = "failed"
 

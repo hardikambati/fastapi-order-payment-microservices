@@ -11,12 +11,12 @@ from core.utils.redis.events import (
 def validate_order_data(func):
     """validates order data"""
     def wrapper(*args, **kwargs):
-        event = args.get("event")
-        data = args.get("data")
+        event = args[0].get("event")
+        data = args[0].get("data")
 
         event_exists_status: bool = event_exists(PaymentEventEnum, event)
         if not event_exists_status:
-            # log here
+            # TODO : log errors
             raise HTTPException(detail=f"Event not found : {event}", status_code=404)
 
         order_id: int = data.get("order_id")

@@ -22,6 +22,9 @@ from core.utils.redis.channels import (
 from core.utils.redis.events import (
     PaymentEventEnum,
 )
+from core.utils.helpers.status import (
+    WebhookStatusEnum,
+)
 from core.main import publish
 
 
@@ -124,7 +127,15 @@ class WebhookService:
         ).first()
         if not order_query:
             raise HTTPException(detail="Invalid order ID", status_code=404)
-        order_query.status = OrderStatusEnum(OrderStatusEnum.PENDING.value)
+        
+        order_id: int = payload.get("order_id")
+        status: str = payload.get("status")
+        
+        target_status = OrderStatusEnum.FAILED.value
+        if status == WebhookStatusEnum.SUCCESS.value:
+            target_status = OrderStatusEnum.SUCCESS.value
+
+        order_query.status = target_status
         
         self.db.commit()
-        return WebhookResponse(detail="Order updated successfully", status_code=404)
+        return WebhookResponse(detail=f"Order updated with status : {target_status}", status_code=200)

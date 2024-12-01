@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from api.routes import router
 from core.main import subscribe
 from payments.utils.handlers import handle_order_payment
-from core.utils.redis.channels_enum import (
+from core.utils.redis.channels import (
     BaseChannelEnum,
 )
 from db import (
