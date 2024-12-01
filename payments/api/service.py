@@ -2,6 +2,11 @@ from sqlalchemy.orm import (
     Session,
 )
 
+from .models import (
+    Payment,
+    OrderPayment,
+)
+
 
 class PaymentService:
     """payment specific services"""
@@ -12,6 +17,9 @@ class PaymentService:
     def get_payment(self, id):
         pass
 
-    def update_payment(self, id):
-        pass
+    def create_payment(self, data: dict):
+        # create payment record
+        payment_query = Payment(
+            total_amount=float(data["total_amount"])
+        )
     

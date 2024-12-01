@@ -7,7 +7,10 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from api.routes import router
 from core.main import subscribe
-from handlers import handle_order_payment
+from payments.utils.handlers import handle_order_payment
+from core.utils.redis.channels_enum import (
+    BaseChannelEnum,
+)
 from db import (
     engine,
     database,
@@ -21,7 +24,7 @@ origins = [
 ]
 
 async def listen_to_redis_channel():
-    subscribe("payment", handle_order_payment)
+    subscribe(BaseChannelEnum.PAYMENT.value, handle_order_payment)
 
 async def startup():
     asyncio.create_task(listen_to_redis_channel())

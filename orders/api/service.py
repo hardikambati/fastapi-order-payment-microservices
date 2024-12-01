@@ -16,6 +16,12 @@ from utils import (
     OrderStatusEnum,
     WebhookResponse,
 )
+from core.utils.redis.channels import (
+    BaseChannelEnum,
+)
+from core.utils.redis.events import (
+    PaymentEventEnum,
+)
 from core.main import publish
 
 
@@ -53,14 +59,14 @@ class OrderService:
 
         # publish event to payment queue
         data = {
-            "event": "ORDER_CREATED",
+            "event": PaymentEventEnum.ORDER_CREATED.value,
             "data": {
                 "order_id": query.id,
                 "user_id": payload.user_id,
                 "total_amount": total_amount,
             }
         }
-        publish(data=data, channel="payment")
+        publish(data=data, channel=BaseChannelEnum.PAYMENT.value)
 
         response = query.to_dict()
         response["products"] = product_list
