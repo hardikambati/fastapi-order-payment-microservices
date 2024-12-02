@@ -27,6 +27,5 @@ def validate_order_data(func):
             order_id or user_id or total_amount
         ):
             raise HTTPException(detail="Invalid data", status_code=400)
-
         return func(*args, **kwargs)
     return wrapper
