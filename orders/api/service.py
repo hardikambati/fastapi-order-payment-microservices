@@ -122,15 +122,15 @@ class WebhookService:
         self.db = db
 
     def update_order_status(self, payload):
+        order_id: int = payload.order_id
+        status: str = payload.status
+
         order_query = self.db.query(Order).filter(
-            Order.id == payload.order_id
+            Order.id == order_id
         ).first()
         if not order_query:
             raise HTTPException(detail="Invalid order ID", status_code=404)
-        
-        order_id: int = payload.get("order_id")
-        status: str = payload.get("status")
-        
+                
         target_status = OrderStatusEnum.FAILED.value
         if status == WebhookStatusEnum.SUCCESS.value:
             target_status = OrderStatusEnum.SUCCESS.value

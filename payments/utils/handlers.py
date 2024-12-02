@@ -22,7 +22,9 @@ def handle_order_payment(data: dict, *args, **kwargs):
     # create payment
     PaymentService(db=db).create_payment(data=data["data"])
     # call order webhook
-    OrderService().update_order_status(order_id=data["data"]["order_id"])
+    response = OrderService().update_order_status(order_id=data["data"]["order_id"])
+    response_detail = response.get("detail")
+    print(f"[WEBHOOK EVENT] {response_detail}")
 
     db.close()
 

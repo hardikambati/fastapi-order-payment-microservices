@@ -12,3 +12,4 @@ class OrderRequestSchema(BaseModel):
 
 class OrderUpdateSchema(BaseModel):
     order_id: int = Field(...)
+    status: str = Field(...)

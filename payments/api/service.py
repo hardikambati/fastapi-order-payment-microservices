@@ -35,3 +35,5 @@ class PaymentService:
             payment_id=payment_query.id,
         )
     
+        self.db.add(order_payment_query)
+        self.db.commit()
