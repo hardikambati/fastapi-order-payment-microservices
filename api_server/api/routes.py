@@ -67,3 +67,12 @@ async def get_orders(db: Session = Depends(get_db)):
 async def get_single_order(id: int, db: Session = Depends(get_db)):
     """get single order"""
     pass
+
+
+# =============== PRODUCTS ===============
+
+
+@router.get("/products", tags=["Product"])
+async def get_products(db: Session = Depends(get_db)):
+    """get all products"""
+    pass

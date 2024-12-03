@@ -11,11 +11,10 @@ from core.utils.external_services.orders import (
 
 
 @decorators.validate_order_data
-def handle_order_payment(data: dict, *args, **kwargs):
+async def handle_order_payment(data: dict, *args, **kwargs):
     """Order payment handler"""
 
     print("[EVENT] received following message from channel : {}")
-    time.sleep(5)
     # db session
     db = SessionLocal()
 

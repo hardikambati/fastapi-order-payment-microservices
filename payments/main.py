@@ -6,7 +6,7 @@ from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
 
 from api.routes import router
-from core.main import subscribe
+from core.main import async_subscribe
 from utils.handlers import handle_order_payment
 from core.utils.redis.channels import (
     BaseChannelEnum,
@@ -24,7 +24,7 @@ origins = [
 ]
 
 async def listen_to_redis_channel():
-    subscribe(BaseChannelEnum.PAYMENT.value, handle_order_payment)
+    await async_subscribe(BaseChannelEnum.PAYMENT.value, handle_order_payment)
 
 async def startup():
     asyncio.create_task(listen_to_redis_channel())

@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from contextlib import asynccontextmanager
 
 from api.routes import router
 from fastapi.middleware.cors import CORSMiddleware
@@ -10,7 +11,6 @@ from db import (
 from alembic import command
 from alembic.config import Config
 
-metadata.create_all(engine)
 
 # accept connections from
 origins = [
@@ -18,10 +18,28 @@ origins = [
 ]
 
 # FastAPI app instance
+async def startup():
+    # TODO : automate migrations
+    # alembic_config = Config("alembic.ini")
+    # command.upgrade(alembic_config, "head")
+    await database.connect()
+
+async def shutdown():
+    await database.disconnect()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    print("[SETUP] running setup...")
+    await startup()
+    print("[SETUP] completed")
+    yield
+    await shutdown()
+
 app = FastAPI(
     title="Order Payment Interface",
     description="API's that function using microservice architecture",
-    version="1.0.0"
+    version="1.0.0",
+    lifespan=lifespan
 )
 
 app.add_middleware(
@@ -31,17 +49,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.on_event("startup")
-async def startup():
-    # TODO : automate migrations
-    # alembic_config = Config("alembic.ini")
-    # command.upgrade(alembic_config, "head")
-    await database.connect()
-
-@app.on_event("shutdown")
-async def shutdown():
-    await database.disconnect()
-
+metadata.create_all(engine)
 
 # routes
 app.include_router(router)
