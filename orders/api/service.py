@@ -36,6 +36,10 @@ class OrderService:
 
     def create_order(self, payload: dict) -> dict:
         product_list = ProductService().get_all_products(product_ids=payload.product_ids)
+
+        if len(product_list) != len(payload.product_ids):
+            raise HTTPException(detail="Invalid product ID's passed", status_code=400)
+
         # calculate total
         total_amount = 0
         for product in product_list:
