@@ -1,5 +1,8 @@
-from typing import List
+from typing import (
+    List,
+)
 from fastapi import (
+    Query,
     Depends,
     APIRouter,
 )
@@ -11,6 +14,9 @@ from db import get_db
 from .schemas import (
     UserSchema,
     UserDetailsSchema,
+)
+from helpers.validators import (
+    validate_user_key,
 )
 from .service import UserService
 
@@ -52,19 +58,19 @@ async def get_user(unique_id: str, db: Session = Depends(get_db)) -> UserDetails
 # =============== ORDERS ===============
 
 @router.post('/orders/create', tags=["Order"])
-async def post_order(db: Session = Depends(get_db)):
+async def post_order(key: str = Depends(validate_user_key), db: Session = Depends(get_db)):
     """create order"""
     pass
 
 
 @router.get("/orders", tags=["Order"])
-async def get_orders(db: Session = Depends(get_db)):
+async def get_orders(key: str = Depends(validate_user_key), db: Session = Depends(get_db)):
     """get all orders"""
     pass
 
 
 @router.get("/orders/{id}", tags=["Order"])
-async def get_single_order(id: int, db: Session = Depends(get_db)):
+async def get_single_order(id: int, key: str = Depends(validate_user_key), db: Session = Depends(get_db)):
     """get single order"""
     pass
 
@@ -73,6 +79,6 @@ async def get_single_order(id: int, db: Session = Depends(get_db)):
 
 
 @router.get("/products", tags=["Product"])
-async def get_products(db: Session = Depends(get_db)):
+async def get_products(key: str = Depends(validate_user_key), db: Session = Depends(get_db)):
     """get all products"""
     pass
