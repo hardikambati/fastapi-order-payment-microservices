@@ -22,7 +22,10 @@ This system consists of multiple services / containers :
 - api_server : Entry point to connections
 - db : PostgreSQL container
 - pgadmin (optional) : Management tool for viewing tables and data
-
+- redis : Redis server
+- products : Product service
+- orders : Order service
+- payments : Payment service
 <br>
 
 ## System Prerequisites
@@ -73,7 +76,8 @@ Redoc Page  : [http://0.0.0.0:8000/redoc/](http://0.0.0.0:8000/redoc/) <br>
 Pgadmin DB  : [http://0.0.0.0:5050/](http://0.0.0.0:5050/)
 
 
-## UPCOMING ADD-ONS
+## Upcoming Add-ons
 
 1. SQLite3 support for testing locally without db setup (run using single script trigger)
-2. Service authentication (imp)
+2. Service authentication
+2. User <> Service authentication
