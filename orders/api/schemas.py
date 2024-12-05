@@ -5,7 +5,6 @@ from typing import (
 from pydantic import (
     BaseModel,
 )
-from core.utils.helpers.status import WebhookStatusEnum
 
 
 class OrderRequestSchema(BaseModel):
@@ -15,4 +14,4 @@ class OrderRequestSchema(BaseModel):
 
 class OrderUpdateSchema(BaseModel):
     order_id: int
-    status: WebhookStatusEnum
+    status: Literal["SUCCESS", "FAILURE"]
