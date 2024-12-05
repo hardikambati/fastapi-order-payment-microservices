@@ -4,3 +4,6 @@
 [submodule "orders/core"]
 	path = orders/core
 	url = https://github.com/hardikambati/core.git
+[submodule "api_server/core"]
+	path = api_server/core
+	url = https://github.com/hardikambati/core.git
