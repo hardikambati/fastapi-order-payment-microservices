@@ -1,3 +1,4 @@
+from typing import List
 from pydantic import (
     Field,
     BaseModel,
@@ -11,3 +12,7 @@ class UserSchema(BaseModel):
 class UserDetailsSchema(BaseModel):
     name: str = Field(...)
     unique_id: str = Field(...)
+
+
+class ProductListSchema(BaseModel):
+    product_ids: List[int]

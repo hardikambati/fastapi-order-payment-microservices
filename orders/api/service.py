@@ -35,7 +35,7 @@ class OrderService:
         self.db = db
 
     def create_order(self, payload: dict) -> dict:
-        product_list = ProductService().get_all_products(product_ids=payload.product_ids)
+        product_list = ProductService().get_particular_products(product_ids=payload.product_ids)
 
         if len(product_list) != len(payload.product_ids):
             raise HTTPException(detail="Invalid product ID's passed", status_code=400)
@@ -88,7 +88,7 @@ class OrderService:
         # create unique product id list
         product_id_list = list(set(product for order in order_query for product in order.get_product_ids()))
         # fetch details from product service
-        product_list = ProductService().get_all_products(product_ids=product_id_list)
+        product_list = ProductService().get_particular_products(product_ids=product_id_list)
         # create dict for constructing response
         product_info_dict = {product["id"]: product for product in product_list}
 
@@ -113,7 +113,7 @@ class OrderService:
         )
 
         product_id_list = [product.product_id for product in order_product_query]
-        product_list = ProductService().get_all_products(product_ids=product_id_list)
+        product_list = ProductService().get_particular_products(product_ids=product_id_list)
 
         response = order_query.to_dict()
         response["products"] = product_list

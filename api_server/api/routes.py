@@ -14,12 +14,14 @@ from db import get_db
 from .schemas import (
     UserSchema,
     UserDetailsSchema,
+    ProductListSchema,
 )
 from helpers.validators import (
     validate_user_key,
 )
 from .service import UserService
-
+from core.utils.external_services.orders import OrderService
+from core.utils.external_services.products import ProductService
 
 router = APIRouter()
 
@@ -58,27 +60,36 @@ async def get_user(unique_id: str, db: Session = Depends(get_db)) -> UserDetails
 # =============== ORDERS ===============
 
 @router.post('/orders/create', tags=["Order"])
-async def post_order(key: str = Depends(validate_user_key), db: Session = Depends(get_db)):
+async def post_order(payload: ProductListSchema, key: str = Depends(validate_user_key)):
     """create order"""
-    pass
+    data = payload.model_dump()
+    data["user_id"] = key
+    query = OrderService().create_order(payload=data)
+    return query
 
 
 @router.get("/orders", tags=["Order"])
-async def get_orders(key: str = Depends(validate_user_key), db: Session = Depends(get_db)):
+async def get_orders(key: str = Depends(validate_user_key)):
     """get all orders"""
-    pass
+    params = {
+        "user_id": key
+    }
+    query = OrderService().get_all_orders(params=params)
+    return query
 
 
 @router.get("/orders/{id}", tags=["Order"])
-async def get_single_order(id: int, key: str = Depends(validate_user_key), db: Session = Depends(get_db)):
+async def get_single_order(id: int, key: str = Depends(validate_user_key)):
     """get single order"""
-    pass
+    query = OrderService().get_single_order(id=id)
+    return query
 
 
 # =============== PRODUCTS ===============
 
 
 @router.get("/products", tags=["Product"])
-async def get_products(key: str = Depends(validate_user_key), db: Session = Depends(get_db)):
+async def get_products(key: str = Depends(validate_user_key)):
     """get all products"""
-    pass
+    query = ProductService().get_all_products()
+    return query

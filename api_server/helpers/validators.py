@@ -19,4 +19,4 @@ async def validate_user_key(key: str = Query(max_length=50), db: Session = Depen
     ).first()
     if not query:
         raise HTTPException(detail="Invalid key", status_code=400)
-    return query.unique_id
+    return query.id
