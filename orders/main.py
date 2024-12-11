@@ -4,6 +4,7 @@ from fastapi import (
 from contextlib import asynccontextmanager
 
 from api.routes import router
+from api import models
 from fastapi.middleware.cors import CORSMiddleware
 from db import (
     engine,
@@ -46,7 +47,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-metadata.create_all(engine)
+models.Base.metadata.create_all(bind=engine)
 
 # routes
 app.include_router(router)

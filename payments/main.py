@@ -6,6 +6,7 @@ from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
 
 from api.routes import router
+from api import models
 from core.main import async_subscribe
 from utils.handlers import handle_order_payment
 from core.utils.redis.channels import (
@@ -57,7 +58,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-metadata.create_all(engine)
+models.Base.metadata.create_all(bind=engine)
 
 # routes
 app.include_router(router)
